@@ -1,0 +1,101 @@
+@startuml
+
+entity "User" {
+  + user_id <<PK>>
+  ---
+  username
+  password
+  email
+  role
+}
+
+entity "Donor" {
+  + donor_id <<PK>>
+  ---
+  user_id <<FK>>
+  ---
+  donor_name
+  contact_number
+  address
+}
+
+entity "Recipient" {
+  + recipient_id <<PK>>
+  ---
+  user_id <<FK>>
+  ---
+  recipient_name
+  contact_number
+  address
+}
+
+entity "FoodItem" {
+  + food_id <<PK>>
+  ---
+  donor_id <<FK>>
+  ---
+  food_name
+  food_description
+  quantity
+  expiry_date
+}
+
+entity "Donation" {
+  + donation_id <<PK>>
+  ---
+  donor_id <<FK>>
+  recipient_id <<FK>>
+  ---
+  donation_date
+  status
+}
+
+entity "Delivery" {
+  + delivery_id <<PK>>
+  ---
+  donation_id <<FK>>
+  ---
+  delivery_date
+  delivery_status
+}
+
+entity "Feedback" {
+  + feedback_id <<PK>>
+  ---
+  user_id <<FK>>
+  ---
+  feedback_message
+  feedback_date
+}
+
+entity "Admin" {
+  + admin_id <<PK>>
+  ---
+  user_id <<FK>>
+}
+
+entity "Category" {
+  + category_id <<PK>>
+  ---
+  category_name
+}
+
+entity "FoodCategory" {
+  + food_category_id <<PK>>
+  ---
+  food_id <<FK>>
+  category_id <<FK>>
+}
+
+User -- Donor : has
+User -- Recipient : has
+Donor -- FoodItem : donates
+Recipient -- Donation : receives
+Donor -- Donation : makes
+Recipient -- Delivery : receives
+Donation -- Delivery : has
+User -- Feedback : gives
+Admin -- User : manages
+FoodItem -- FoodCategory : belongs_to
+
+@enduml
